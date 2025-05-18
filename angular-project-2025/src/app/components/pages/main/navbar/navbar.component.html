@@ -1,0 +1,71 @@
+<section class="">
+    <aside class="sidebar">
+        <div [routerLink]="'/main-component'" class="logo">
+            <img src="../../../../../assets/TaskyLogoV3Edit.png" alt="TaskyLogo">
+        </div>
+
+        <div class="teams-header">
+            <span>Teams</span>
+            <div>
+                <button class="add-btn" (click)="toggleAddForm()">+</button>
+                <button class="rm-btn" (click)="toggleRmForm()">-</button>
+            </div>
+        </div>
+
+        <div *ngIf="showAddForm" class="add-team-form">
+            <input type="text" [(ngModel)]="newTeamName" placeholder="Team name" />
+            <!-- <input type="text" value="" placeholder="Key Team" /> -->
+            <select class="team-options" [(ngModel)]="newTeamType">
+                <option value="my">My Team</option>
+                <option value="company">Company Team</option>
+            </select>
+            <div class="color-options">
+                <div *ngFor="let color of ['red', 'blue', 'green', 'yellow', 'purple', 'gray']" class="color-circle"
+                    [ngClass]="color" [class.selected]="newTeamColor === color" (click)="newTeamColor = color"></div>
+            </div>
+            <button (click)="addTeam()">Add</button>
+        </div>
+
+
+        <div class="section-label">My Teams</div>
+        <ul class="team-list">
+            <li *ngFor="let team of teams" class="team-item" [class.active]="activeTeam === team.name"
+                [class.removable]="removeMode"
+                (click)="removeMode ? removeTeamByName(team.name, 'my') : activeTeam = team.name">
+                <span class="dot" [ngClass]="team.color"></span>
+                <span class="team-name">{{ team.name }}</span>
+                <span class="count">{{ team.count }} members</span>
+            </li>
+        </ul>
+
+        <div class="section-label">Company Teams</div>
+        <ul class="team-list">
+            <li *ngFor="let team of companyTeams" class="team-item" [class.active]="activeTeam === team.name"
+                [class.removable]="removeMode"
+                (click)="removeMode ? removeTeamByName(team.name, 'company') : activeTeam = team.name">
+                <span class="dot" [ngClass]="team.color"></span>
+                <span class="team-name">{{ team.name }}</span>
+                <span class="count">{{ team.count }} members</span>
+            </li>
+        </ul>
+
+
+        <div class="user-profile">
+            <img src="../../../../../assets/favicon__ico/favicon-32x32.ico" alt="User Avatar" class="avatar" />
+            <div class="user-info">
+                <div class="user-name">Tasky Manager</div>
+                <div class="user-role">Product Manager</div>
+            </div>
+        </div>
+        <div class="bottom-actions">
+            <div class="action-item">
+                <span class="icon">⚙️</span>
+                <span>Settings</span>
+            </div>
+            <div class="action-item" [routerLink]="'/home-component'">
+                <span class="icon">🚪</span>
+                <span>Logout</span>
+            </div>
+        </div>
+    </aside>
+</section>
