@@ -1,6 +1,6 @@
-<section class="">
+<section>
     <aside class="sidebar">
-        <div [routerLink]="'/main-component'" class="logo">
+        <div [routerLink]="'/main'" class="logo">
             <img src="../../../../../assets/TaskyLogoV3Edit.png" alt="TaskyLogo">
         </div>
 
@@ -53,8 +53,8 @@
         <div class="user-profile">
             <img src="../../../../../assets/favicon__ico/favicon-32x32.ico" alt="User Avatar" class="avatar" />
             <div class="user-info">
-                <div class="user-name">Tasky Manager</div>
-                <div class="user-role">Product Manager</div>
+                <div class="user-name">{{LoginId}}</div>
+                <div class="user-role">User</div>
             </div>
         </div>
         <div class="bottom-actions">
@@ -62,7 +62,7 @@
                 <span class="icon">⚙️</span>
                 <span>Settings</span>
             </div>
-            <div class="action-item" [routerLink]="'/home-component'">
+            <div class="action-item" [routerLink]="'/home'">
                 <span class="icon">🚪</span>
                 <span>Logout</span>
             </div>

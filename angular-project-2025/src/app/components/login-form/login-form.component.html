@@ -3,9 +3,12 @@
         <div class="form-title"><span>sign in to your</span></div>
         <div class="title-2"><span>Tasky</span></div>
         <div class="input-container">
-            <input placeholder="Username" type="text" [(ngModel)]="username" name="username" class="input-user" required />
-            <input placeholder="Email" type="email" [(ngModel)]="email" name="email" class="input-mail" required />
-            <input placeholder="Password" type="password" [(ngModel)]="password" name="password" class="input-pwd" required />
+            <input placeholder="Username" type="text" [(ngModel)]="username" name="username" class="input-user" required
+                autocomplete="current-username" />
+            <input placeholder="Email" type="email" [(ngModel)]="email" name="email" class="input-mail" required
+                autocomplete="current-email" />
+            <input placeholder="Password" type="password" [(ngModel)]="password" name="password" class="input-pwd" required
+                autocomplete="current-password" />
             <button class="submit" (click)="handleLogin()" type="button">
                 <span class="sign-text">Sign in</span>
             </button>

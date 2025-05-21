@@ -1,0 +1,36 @@
+<section class="main-task-manger">
+    <div class="kanban-wrapper">
+        <div class="kanban-header">
+            <div class="left">
+                <h2>🤘 UX Design Team</h2>
+                <div class="members">JE, JZ, PL, LB + Invite</div>
+            </div>
+            <div class="right">
+                <button class="create-btn">+ Create</button>
+                <button class="filter-btn">Filter</button>
+            </div>
+        </div>
+
+        <div class="kanban-columns">
+            <div class="column" *ngFor="let column of columns">
+                <div class="column-header">
+                    <h3>{{ column }}</h3>
+                    <button class="add-card">+</button>
+                </div>
+
+                <div class="card" *ngFor="let card of [1, 2]">
+                    <div class="card-id">ID-00{{ card }}</div>
+                    <div class="card-title">Example Task</div>
+                    <div class="card-meta">
+                        <span>🗨️ 3</span>
+                        <span>📎 8</span>
+                        <span>👤 PL</span>
+                    </div>
+                </div>
+
+                <button class="add-new-card">+ Add New Card</button>
+            </div>
+        </div>
+    </div>
+
+</section>

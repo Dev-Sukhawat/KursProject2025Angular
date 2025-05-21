@@ -1,0 +1,26 @@
+.main {
+    display: grid;
+    height: 100vh; // Full height of viewport
+    grid-template-columns: auto 3fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "navbar topbar"
+      "navbar taskmanager";
+  
+    .navbar {
+      grid-area: navbar;
+      background-color: #f4f4f4;
+    }
+  
+    .top-bar {
+      grid-area: topbar;
+      background-color: #fff;
+      border-bottom: 1px solid #e0e0e0;
+    }
+  
+    .task-manager {
+      grid-area: taskmanager;
+      background-color: #fafafa;
+    }
+  }
+  

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -10,8 +10,9 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
-export class NavbarComponent {
-  activeTeam = 'UX Design';
+export class NavbarComponent implements OnInit {
+  @Input() LoginId!: string | null;
+  activeTeam = '';
 
   teams = [
     { name: 'Management', color: 'red', count: 5 },
@@ -24,6 +25,15 @@ export class NavbarComponent {
     { name: 'Development', color: 'green', count: 36 },
     { name: 'Sales', color: 'yellow', count: 3 },
   ];
+
+  ngOnInit(): void {
+    if (this.teams.length > 0) {
+      this.activeTeam = this.teams[0].name;
+    }
+    if (this.companyTeams.length > 0) {
+      this.activeTeam = this.teams[0].name;
+    }
+  }
 
   showAddForm = false;
   newTeamName = '';

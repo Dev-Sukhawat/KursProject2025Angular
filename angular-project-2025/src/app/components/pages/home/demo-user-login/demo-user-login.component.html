@@ -1,0 +1,21 @@
+<div class="demo-users-container">
+    <h2>Demo Users</h2>
+    <p>Use these user to log in:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Password</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of demoUsers">
+                <td data-label="Username">{{ user.username }}</td>
+                <td data-label="Email">{{ user.email }}</td>
+                <td data-label="Password">{{ user.password }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

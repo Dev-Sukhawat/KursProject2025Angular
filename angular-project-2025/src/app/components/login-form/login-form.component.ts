@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
@@ -7,6 +7,10 @@ interface User {
   email: string;
   password: string;
 }
+
+@Injectable({
+  providedIn: 'root',
+})
 @Component({
   selector: 'app-login-form',
   standalone: true,
@@ -14,7 +18,8 @@ interface User {
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss',
 })
-export class LoginFormComponent {
+export class LoginFormComponent implements OnInit {
+  private localStorageKey = 'demoUsers';
   username: string = '';
   email: string = '';
   password: string = '';
@@ -27,13 +32,40 @@ export class LoginFormComponent {
       password: 'Password123!',
     },
     {
-      username: 'johndoe',
-      email: 'john.doe@example.com',
-      password: 'JohnDoe@2025',
+      username: 'Tasky',
+      email: 'Tasky@Tasky.com',
+      password: 'Tasky@2025',
     },
   ];
 
   constructor(private router: Router) {}
+
+  saveUsers(): void {
+    localStorage.setItem(this.localStorageKey, JSON.stringify(this.demoUsers));
+  }
+  ngOnInit(): void {
+    this.loadUsers(); // Ladda användare från localStorage vid start
+  }
+
+  loadUsers(): void {
+    const data = localStorage.getItem(this.localStorageKey);
+    if (data) {
+      this.demoUsers = JSON.parse(data);
+    } else {
+      this.saveUsers(); // spara default om inget finns
+    }
+  }
+
+  // (valfritt) Lägg till användare
+  addUser(user: User): void {
+    this.demoUsers.push(user);
+    this.saveUsers();
+  }
+
+  // (valfritt) Hämta alla
+  getUsers(): User[] {
+    return this.demoUsers;
+  }
 
   showUnderdevelopAlert(): void {
     alert('Underdevelop');
@@ -57,6 +89,7 @@ export class LoginFormComponent {
   }
 
   handleLogin(): void {
+    this.loadUsers(); // 👈 hämta uppdaterad lista från localStorage
     if (!this.validateUsername(this.username)) {
       alert(
         'Invalid username! Must be at least 3 characters, letters and numbers only.'
@@ -81,9 +114,11 @@ export class LoginFormComponent {
         u.password === this.password
     );
 
+    console.log(user);
+
     if (user) {
       alert('Login successful!');
-      this.router.navigate(['/main-component']);
+      this.router.navigate(['/main', user.username]); // 👈 navigera om korrekt
     } else {
       alert('User not found or wrong credentials.');
     }
