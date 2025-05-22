@@ -6,7 +6,7 @@ import { MainTaskMangerComponent } from './components/pages/main/main-task-mange
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', title: 'Home', component: HomeComponent },
+  { path: 'home', title: 'Tasky - Home', component: HomeComponent },
   {
     path: 'main/:id',
     title: 'Main',

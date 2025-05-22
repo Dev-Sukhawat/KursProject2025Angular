@@ -89,7 +89,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   handleLogin(): void {
-    this.loadUsers(); // 👈 hämta uppdaterad lista från localStorage
+    this.loadUsers(); // hämta uppdaterad lista från localStorage
     if (!this.validateUsername(this.username)) {
       alert(
         'Invalid username! Must be at least 3 characters, letters and numbers only.'
@@ -118,7 +118,7 @@ export class LoginFormComponent implements OnInit {
 
     if (user) {
       alert('Login successful!');
-      this.router.navigate(['/main', user.username]); // 👈 navigera om korrekt
+      this.router.navigate(['/main', user.username]);
     } else {
       alert('User not found or wrong credentials.');
     }

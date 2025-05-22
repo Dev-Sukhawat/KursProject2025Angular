@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterLinkActive, RouterLinkWithHref, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from '../../components/pages/main/navbar/navbar.component';
 import { TopBarComponent } from '../../components/pages/main/top-bar/top-bar.component';
 import { MainTaskMangerComponent } from '../../components/pages/main/main-task-manger/main-task-manger.component';
@@ -7,7 +7,12 @@ import { MainTaskMangerComponent } from '../../components/pages/main/main-task-m
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [NavbarComponent, TopBarComponent, MainTaskMangerComponent],
+  imports: [
+    NavbarComponent,
+    TopBarComponent,
+    MainTaskMangerComponent,
+    RouterOutlet,
+  ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
 })
