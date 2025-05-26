@@ -7,31 +7,33 @@
         <div class="teams-header">
             <span>Teams</span>
             <div>
-                <button class="add-btn" (click)="toggleAddForm()">+</button>
-                <button class="rm-btn" (click)="toggleRmForm()">-</button>
+                <button class="add-btn" (click)="teamFormService.toggleAddForm()">+</button>
+                <button class="rm-btn" (click)="teamFormService.toggleRmForm()">-</button>
             </div>
         </div>
-
-        <div *ngIf="showAddForm" class="add-team-form">
-            <input type="text" [(ngModel)]="newTeamName" placeholder="Team name" />
-            <!-- <input type="text" value="" placeholder="Key Team" /> -->
-            <select class="team-options" [(ngModel)]="newTeamType">
+        
+        <div *ngIf="teamFormService.showAddForm" class="add-team-form">
+            <input type="text" [(ngModel)]="teamFormService.newTeamName" placeholder="Team name" />
+        
+            <select class="team-options" [(ngModel)]="teamFormService.newTeamType">
                 <option value="my">My Team</option>
                 <option value="company">Company Team</option>
             </select>
+        
             <div class="color-options">
                 <div *ngFor="let color of ['red', 'blue', 'green', 'yellow', 'purple', 'gray']" class="color-circle"
-                    [ngClass]="color" [class.selected]="newTeamColor === color" (click)="newTeamColor = color"></div>
+                    [ngClass]="color" [class.selected]="teamFormService.newTeamColor === color"
+                    (click)="teamFormService.newTeamColor = color">
+                </div>
             </div>
             <button (click)="addTeam()">Add</button>
         </div>
-
-
+        
         <div class="section-label">My Teams</div>
         <ul class="team-list">
             <li *ngFor="let team of teams" class="team-item" [class.active]="activeTeam === team.name"
-                [class.removable]="removeMode"
-                (click)="removeMode ? removeTeamByName(team.name, 'my') : activeTeam = team.name">
+                [class.removable]="teamFormService.removeMode"
+                (click)="teamFormService.removeMode ? removeTeamByName(team.name, 'my') : selectTeam(team.name, 'my')">
                 <span class="dot" [ngClass]="team.color"></span>
                 <span class="team-name">{{ team.name }}</span>
                 <span class="count">{{ team.count }} members</span>
@@ -41,8 +43,8 @@
         <div class="section-label">Company Teams</div>
         <ul class="team-list">
             <li *ngFor="let team of companyTeams" class="team-item" [class.active]="activeTeam === team.name"
-                [class.removable]="removeMode"
-                (click)="removeMode ? removeTeamByName(team.name, 'company') : activeTeam = team.name">
+                [class.removable]="teamFormService.removeMode"
+                (click)="teamFormService.removeMode ? removeTeamByName(team.name, 'company') : selectTeam(team.name, 'company')">
                 <span class="dot" [ngClass]="team.color"></span>
                 <span class="team-name">{{ team.name }}</span>
                 <span class="count">{{ team.count }} members</span>

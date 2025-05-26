@@ -1,6 +1,5 @@
 .main-task-manger {
     padding: 1rem;
-    margin-top: 5rem;
 }
 .kanban-wrapper {
     padding: 2rem;
@@ -68,8 +67,18 @@
                     font-size: 1.1rem;
                 }
 
-                .add-card {
-                    background: #f3f4f6;
+                .add-btn {
+                    background: #22c55e;
+                    border: none;
+                    border-radius: 50%;
+                    color: white;
+                    width: 24px;
+                    height: 24px;
+                    cursor: pointer;
+                }
+                .remove-btn {
+                    background: #dc2626;
+                    color: white;
                     border: none;
                     border-radius: 50%;
                     width: 24px;
@@ -79,15 +88,32 @@
             }
 
             .card {
+                display: grid;
+                gap: 0.5rem;
                 background: #f8fafc;
                 border-radius: 8px;
                 padding: 0.75rem;
                 margin-bottom: 0.75rem;
                 box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+                transition: background-color 0.2s, border 0.2s;
 
-                .card-id {
+                &.removable:hover {
+                    background-color: #ffecec;
+                    border-color: #ff4d4f;
+                    cursor: url('../../../../../assets/cursor/icons8-man-dragging-sack-32.png'), grab;
+                }
+
+                .NCID{
+                    display: flex;
+                    justify-content: space-between;
+                }
+
+                .card-nameCard {
                     font-weight: bold;
                     font-size: 0.85rem;
+                }
+                .card-id {
+                    font-size: 0.50rem;
                 }
 
                 .card-title {
@@ -109,6 +135,29 @@
                 font-size: 0.9rem;
                 cursor: pointer;
                 margin-top: auto;
+            }
+
+            .column.cdk-drop-list {
+                min-height: 150px; /* säkerställer att kolumnerna är tillräckligt höga för att ta emot drag */
+                outline: solid 1px black;
+            }
+
+            .card.cdk-drag {
+                cursor: grab;
+            }
+
+            .cdk-drag-placeholder {
+                background: #d1d5db; /* ljusgrå placeholder vid drag */
+                border-radius: 8px;
+                height: auto; /* ungefär samma som korten */
+                margin-bottom: 0.75rem;
+            }
+            
+            .cdk-drag-preview {
+                cursor: cell;
+                box-shadow: 0 8px 17px rgba(0, 0, 0, 0.2);
+                border-radius: 8px;
+                background: white;
             }
         }
     }

@@ -1,7 +1,9 @@
+import { Router } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TeamFormService } from '../../../../team-form.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,6 +15,11 @@ import { FormsModule } from '@angular/forms';
 export class NavbarComponent implements OnInit {
   @Input() LoginId!: string | null;
   activeTeam = '';
+
+  constructor(
+    private router: Router,
+    public teamFormService: TeamFormService
+  ) {}
 
   teams = [
     { name: 'Management', color: 'red', count: 5 },
@@ -29,49 +36,30 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     if (this.teams.length > 0) {
       this.activeTeam = this.teams[0].name;
+    } else if (this.companyTeams.length > 0) {
+      this.activeTeam = this.companyTeams[0].name;
     }
-    if (this.companyTeams.length > 0) {
-      this.activeTeam = this.teams[0].name;
-    }
-  }
-
-  showAddForm = false;
-  newTeamName = '';
-  newTeamType: 'my' | 'company' = 'my';
-  newTeamColor = 'gray'; // default
-
-  toggleAddForm() {
-    this.showAddForm = !this.showAddForm;
-    this.removeMode = false;
   }
 
   addTeam() {
-    if (!this.newTeamName.trim()) return;
+    const form = this.teamFormService;
+    if (!form.newTeamName.trim()) return;
 
     const newTeam = {
-      name: this.newTeamName.trim(),
+      name: form.newTeamName.trim(),
       count: 1,
-      color: this.newTeamColor,
+      color: form.newTeamColor,
     };
 
-    if (this.newTeamType === 'my') {
+    if (form.newTeamType === 'my') {
       this.teams.push(newTeam);
     } else {
       this.companyTeams.push(newTeam);
     }
 
     // Reset and hide form
-    this.showAddForm = false;
-    this.newTeamName = '';
-    this.newTeamColor = 'red';
-    this.newTeamType = 'my';
-  }
-
-  removeMode = false;
-
-  toggleRmForm() {
-    this.removeMode = !this.removeMode;
-    this.showAddForm = false;
+    form.showAddForm = false;
+    form.resetForm();
   }
 
   removeTeamByName(name: string, type: 'my' | 'company') {
@@ -86,5 +74,16 @@ export class NavbarComponent implements OnInit {
         (team) => team.name !== name
       );
     }
+  }
+
+  selectTeam(teamName: string, type: 'my' | 'company') {
+    this.activeTeam = teamName;
+
+    const teamParam = teamName.toLowerCase().replace(/\s+/g, '-'); // e.g. UX Design → ux-design
+
+    this.router.navigate(['/main', this.LoginId], {
+      queryParams: { team: teamParam },
+      fragment: 'tasks',
+    });
   }
 }
