@@ -24,7 +24,7 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.LoginId = params.get('id');
-      console.log('LoginId:', this.LoginId);
+      // console.log('LoginId:', this.LoginId);
     });
   }
 }
