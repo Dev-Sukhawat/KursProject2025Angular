@@ -24,6 +24,8 @@ export class LoginFormComponent implements OnInit {
   email: string = '';
   password: string = '';
 
+  teams = [{ name: 'Management', color: 'red', count: 5 }];
+
   // Demo users list
   demoUsers: User[] = [
     {
@@ -114,13 +116,20 @@ export class LoginFormComponent implements OnInit {
         u.password === this.password
     );
 
-    console.log(user);
-
-    if (user) {
-      alert('Login successful!');
-      this.router.navigate(['/main', user.username]);
-    } else {
-      alert('User not found or wrong credentials.');
+    if (!user) {
+      alert('User not found or credentials incorrect.');
+      return;
     }
+
+    const firstTeamName =
+      this.teams && this.teams.length > 0 ? this.teams[0].name : 'management';
+    const teamParam = firstTeamName.toLowerCase().replace(/\s+/g, '-');
+
+    alert('Login success!');
+
+    this.router.navigate(['/main', user.username], {
+      queryParams: { team: teamParam },
+      fragment: 'tasks',
+    });
   }
 }
