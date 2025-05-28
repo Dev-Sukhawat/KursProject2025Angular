@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CapitalizePipe } from '../../../utils/capitalize.pipe';
@@ -11,6 +12,7 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
+import { TaskTitleDialogComponent } from '../task-title-dialog/task-title-dialog.component';
 
 // ✅ Lägg interface UTANFÖR @Component
 interface Task {
@@ -46,7 +48,8 @@ export class MainTaskMangerComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    public teamFormService: TeamFormService
+    public teamFormService: TeamFormService,
+    private dialog: MatDialog
   ) {}
   connectedDropListsIds: string[] = [];
 
@@ -123,14 +126,38 @@ export class MainTaskMangerComponent implements OnInit {
     });
   }
 
-  addCard(column: Column): void {
+  addCardMode(column: Column): void {
     this.removeMode = false;
-    const newTask: Task = {
-      id: `ID-00${this.taskCounter++}`,
-      title: 'New Task',
-    };
-    column.tasks.push(newTask);
-    this.updateCardNames();
+
+    const dialogRef = this.dialog.open(TaskTitleDialogComponent, {
+      width: '300px',
+      data: { title: '' },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const newTask: Task = {
+          id: `ID-00${this.taskCounter++}`,
+          title: result,
+        };
+        column.tasks.push(newTask);
+        this.updateCardNames();
+      }
+    });
+  }
+
+  editCardMode(column: Column, task: Task): void {
+    const dialogRef = this.dialog.open(TaskTitleDialogComponent, {
+      width: '300px',
+      data: { title: task.title },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        task.title = result;
+        this.updateCardNames(); // ev. uppdateringslogik
+      }
+    });
   }
 
   removeSpecificCard(column: Column, taskToRemove: Task): void {

@@ -16,7 +16,7 @@
                 <div class="column-header">
                     <h3>{{ column.name }}</h3>
                     <div class="add_rm-btn">
-                        <button class="add-btn" (click)="addCard(column)">+</button>
+                        <button class="add-btn" (click)="addCardMode(column)">+</button>
                         <button class="remove-btn" (click)="toggleRemoveMode()">-</button>
                     </div>
                 </div>
@@ -34,13 +34,18 @@
                             <app-progress-bar></app-progress-bar>
                         </div>
                     </div>
-                    <div class="card-meta">
-                        <span>🗨️ 3</span>
-                        <span>📎 8</span>
-                        <span>👤 User;</span>
+                    <div class="card-info">
+                        <div class="card-meta">
+                            <span>🗨️ 3</span>
+                            <span>📎 8</span>
+                            <span>👤 User;</span>
+                        </div>
+                        <div class="card-edit">
+                            <span (click)="editCardMode(column, task)">📝 Edit</span>
+                        </div>
                     </div>
-                </div>
-                <button class="add-new-card" (click)="addCard(column)">+ Add New Card</button>
+                    </div>
+                    <button class="add-new-card" (click)="addCardMode(column)">+ Add New Card</button>
             </div>
         </div>
     </div>
