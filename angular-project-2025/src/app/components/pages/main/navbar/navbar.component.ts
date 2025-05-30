@@ -21,23 +21,295 @@ export class NavbarComponent implements OnInit {
     public teamFormService: TeamFormService
   ) {}
 
-  teams = [
-    { name: 'Management', color: 'red', count: 5 },
-    { name: 'UX Design', color: 'purple', count: 4 },
-    { name: 'Product Marketing', color: 'violet', count: 3 },
-    { name: 'Analytics', color: 'blue', count: 5 },
-  ];
+  allTeams = {
+    myTeams: [
+      {
+        name: 'Demo',
+        color: 'gray',
+        count: 1,
+        columns: [
+          {
+            name: 'To Do',
+            color: '#aaa',
+            cardName: '',
+            progress: 3,
+            tasks: [
+              { id: 'ID-001', title: 'Feed the dog' },
+              { id: 'ID-002', title: 'Take a walk with the dog' },
+            ],
+          },
+          {
+            name: 'In Progress',
+            color: '#ff0000',
+            cardName: '',
+            progress: 33,
+            tasks: [{ id: 'ID-003', title: 'Drive home' }],
+          },
+          {
+            name: 'Review',
+            color: '#ffcc00',
+            cardName: '',
+            progress: 66,
+            tasks: [{ id: 'ID-004', title: 'Refuel the car' }],
+          },
+          {
+            name: 'Done',
+            color: '#00cc66',
+            cardName: '',
+            progress: 100,
+            tasks: [{ id: 'ID-005', title: 'Company Work' }],
+          },
+        ],
+      },
+      {
+        name: 'Management',
+        color: 'red',
+        count: 5,
+        columns: [
+          {
+            name: 'To Do',
+            color: '#aaa',
+            cardName: '',
+            progress: 3,
+            tasks: [],
+          },
+          {
+            name: 'In Progress',
+            color: '#ff0000',
+            cardName: '',
+            progress: 33,
+            tasks: [],
+          },
+          {
+            name: 'Review',
+            color: '#ffcc00',
+            cardName: '',
+            progress: 66,
+            tasks: [],
+          },
+          {
+            name: 'Done',
+            color: '#00cc66',
+            cardName: '',
+            progress: 100,
+            tasks: [
+              { id: 'ID-001', title: 'Feed the dog' },
+              { id: 'ID-002', title: 'Take a walk with the dog' },
+              { id: 'ID-003', title: 'Drive home' },
+              { id: 'ID-004', title: 'Refuel the car' },
+              { id: 'ID-005', title: 'Company Work' },
+            ],
+          },
+        ],
+      },
+      {
+        name: 'UX Design',
+        color: 'purple',
+        count: 4,
+        columns: [
+          {
+            name: 'To Do',
+            color: '#aaa',
+            cardName: '',
+            progress: 3,
+            tasks: [],
+          },
+          {
+            name: 'In Progress',
+            color: '#ff0000',
+            cardName: '',
+            progress: 33,
+            tasks: [
+              { id: 'ID-001', title: 'Feed the dog' },
+              { id: 'ID-002', title: 'Take a walk with the dog' },
+              { id: 'ID-003', title: 'Drive home' },
+            ],
+          },
+          {
+            name: 'Review',
+            color: '#ffcc00',
+            cardName: '',
+            progress: 66,
+            tasks: [{ id: 'ID-004', title: 'Refuel the car' }],
+          },
+          {
+            name: 'Done',
+            color: '#00cc66',
+            cardName: '',
+            progress: 100,
+            tasks: [{ id: 'ID-005', title: 'Company Work' }],
+          },
+        ],
+      },
+      {
+        name: 'Product Marketing',
+        color: 'violet',
+        count: 3,
+        columns: [
+          {
+            name: 'To Do',
+            color: '#aaa',
+            cardName: '',
+            progress: 3,
+            tasks: [
+              { id: 'ID-001', title: 'Feed the dog' },
+              { id: 'ID-002', title: 'Take a walk with the dog' },
+              { id: 'ID-003', title: 'Drive home' },
+            ],
+          },
+          {
+            name: 'In Progress',
+            color: '#ff0000',
+            cardName: '',
+            progress: 33,
+            tasks: [],
+          },
+          {
+            name: 'Review',
+            color: '#ffcc00',
+            cardName: '',
+            progress: 66,
+            tasks: [],
+          },
+          {
+            name: 'Done',
+            color: '#00cc66',
+            cardName: '',
+            progress: 100,
+            tasks: [],
+          },
+        ],
+      },
+      {
+        name: 'Analytics',
+        color: 'blue',
+        count: 5,
+        columns: [
+          {
+            name: 'To Do',
+            color: '#aaa',
+            cardName: '',
+            progress: 3,
+            tasks: [],
+          },
+          {
+            name: 'In Progress',
+            color: '#ff0000',
+            cardName: '',
+            progress: 33,
+            tasks: [],
+          },
+          {
+            name: 'Review',
+            color: '#ffcc00',
+            cardName: '',
+            progress: 66,
+            tasks: [],
+          },
+          {
+            name: 'Done',
+            color: '#00cc66',
+            cardName: '',
+            progress: 100,
+            tasks: [],
+          },
+        ],
+      },
+    ],
+    companyTeams: [
+      {
+        name: 'Development',
+        color: 'green',
+        count: 36,
+        columns: [
+          {
+            name: 'To Do',
+            color: '#aaa',
+            cardName: '',
+            progress: 3,
+            tasks: [],
+          },
+          {
+            name: 'In Progress',
+            color: '#ff0000',
+            cardName: '',
+            progress: 33,
+            tasks: [],
+          },
+          {
+            name: 'Review',
+            color: '#ffcc00',
+            cardName: '',
+            progress: 66,
+            tasks: [],
+          },
+          {
+            name: 'Done',
+            color: '#00cc66',
+            cardName: '',
+            progress: 100,
+            tasks: [],
+          },
+        ],
+      },
+      {
+        name: 'Sales',
+        color: 'yellow',
+        count: 3,
+        columns: [
+          {
+            name: 'To Do',
+            color: '#aaa',
+            cardName: '',
+            progress: 3,
+            tasks: [],
+          },
+          {
+            name: 'In Progress',
+            color: '#ff0000',
+            cardName: '',
+            progress: 33,
+            tasks: [],
+          },
+          {
+            name: 'Review',
+            color: '#ffcc00',
+            cardName: '',
+            progress: 66,
+            tasks: [],
+          },
+          {
+            name: 'Done',
+            color: '#00cc66',
+            cardName: '',
+            progress: 100,
+            tasks: [],
+          },
+        ],
+      },
+    ],
+  };
 
-  companyTeams = [
-    { name: 'Development', color: 'green', count: 36 },
-    { name: 'Sales', color: 'yellow', count: 3 },
-  ];
+  saveAllTeamsToStorage() {
+    localStorage.setItem('allTeams', JSON.stringify(this.allTeams));
+  }
+
+  loadAllTeamsFromStorage() {
+    const data = localStorage.getItem('allTeams');
+    if (data) {
+      this.allTeams = JSON.parse(data);
+    } else {
+      this.saveAllTeamsToStorage(); // spara standard första gången
+    }
+  }
 
   ngOnInit(): void {
-    if (this.teams.length > 0) {
-      this.activeTeam = this.teams[0].name;
-    } else if (this.companyTeams.length > 0) {
-      this.activeTeam = this.companyTeams[0].name;
+    this.loadAllTeamsFromStorage();
+
+    if (this.allTeams.myTeams.length > 0) {
+      this.activeTeam = this.allTeams.myTeams[0].name;
+    } else if (this.allTeams.companyTeams.length > 0) {
+      this.activeTeam = this.allTeams.companyTeams[0].name;
     }
   }
 
@@ -49,17 +321,47 @@ export class NavbarComponent implements OnInit {
       name: form.newTeamName.trim(),
       count: 1,
       color: form.newTeamColor,
+      columns: [
+        {
+          name: 'To Do',
+          color: '#aaa',
+          cardName: '',
+          progress: 3,
+          tasks: [],
+        },
+        {
+          name: 'In Progress',
+          color: '#ff0000',
+          cardName: '',
+          progress: 33,
+          tasks: [],
+        },
+        {
+          name: 'Review',
+          color: '#ffcc00',
+          cardName: '',
+          progress: 66,
+          tasks: [],
+        },
+        {
+          name: 'Done',
+          color: '#00cc66',
+          cardName: '',
+          progress: 100,
+          tasks: [],
+        },
+      ],
     };
 
     if (form.newTeamType === 'my') {
-      this.teams.push(newTeam);
+      this.allTeams.myTeams.push(newTeam);
     } else {
-      this.companyTeams.push(newTeam);
+      this.allTeams.companyTeams.push(newTeam);
     }
 
-    // Reset and hide form
     form.showAddForm = false;
     form.resetForm();
+    this.saveAllTeamsToStorage();
   }
 
   removeTeamByName(name: string, type: 'my' | 'company') {
@@ -67,19 +369,24 @@ export class NavbarComponent implements OnInit {
       `Are you sure you want to remove "${name}"?`
     );
     if (!confirmed) return;
+
     if (type === 'my') {
-      this.teams = this.teams.filter((team) => team.name !== name);
+      this.allTeams.myTeams = this.allTeams.myTeams.filter(
+        (team) => team.name !== name
+      );
     } else {
-      this.companyTeams = this.companyTeams.filter(
+      this.allTeams.companyTeams = this.allTeams.companyTeams.filter(
         (team) => team.name !== name
       );
     }
+
+    this.saveAllTeamsToStorage();
   }
 
   selectTeam(teamName: string, type: 'my' | 'company') {
     this.activeTeam = teamName;
 
-    const teamParam = teamName.toLowerCase().replace(/\s+/g, '-'); // e.g. UX Design → ux-design
+    const teamParam = teamName.toLowerCase().replace(/\s+/g, '-');
 
     this.router.navigate(['/main', this.LoginId], {
       queryParams: { team: teamParam },
