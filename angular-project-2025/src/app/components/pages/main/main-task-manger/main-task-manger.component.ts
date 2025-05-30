@@ -14,7 +14,6 @@ import {
 import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
 import { TaskTitleDialogComponent } from '../task-title-dialog/task-title-dialog.component';
 
-// ✅ Lägg interface UTANFÖR @Component
 interface Task {
   id: string;
   title: string;
@@ -28,6 +27,13 @@ interface Column {
   color: string;
   progress: number;
   cardName: string;
+}
+
+interface Team {
+  name: string;
+  color?: string;
+  count?: number;
+  columns: Column[];
 }
 
 @Component({
@@ -75,19 +81,17 @@ export class MainTaskMangerComponent implements OnInit {
     }
 
     const allTeams = JSON.parse(savedTeams);
-    const myTeams = allTeams.myTeams || [];
-    const companyTeams = allTeams.companyTeams || [];
+    const myTeams: Team[] = allTeams.myTeams || [];
+    const companyTeams: Team[] = allTeams.companyTeams || [];
 
-    // Kombinera alla team i en lista för att söka i båda kategorierna
-    const all = [...myTeams, ...companyTeams];
+    const all: Team[] = [...myTeams, ...companyTeams];
 
-    // Leta upp teamet med sluggat namn (lowercase, spaces till '-')
     const matchedTeam = all.find(
       (team) => team.name.toLowerCase().replace(/\s+/g, '-') === teamParam
     );
 
     if (!matchedTeam) {
-      console.warn(`Team med slug "${teamParam}" hittades inte.`);
+      console.warn(`Team with slug "${teamParam}" not found.`);
       return;
     }
 
@@ -97,26 +101,37 @@ export class MainTaskMangerComponent implements OnInit {
     );
     this.selectedTeam = matchedTeam.name;
 
-    // Räkna ut totala antalet tasks i alla kolumner
+    this.currentFragment = myTeams.some(
+      (team) => team.name === matchedTeam.name
+    )
+      ? 'myTeams'
+      : 'companyTeams';
+
     const allTaskCount = this.columns.flatMap((column) => column.tasks).length;
     this.taskCounter = allTaskCount > 0 ? allTaskCount + 1 : 1;
+
+    console.log('✔️ Loaded team:', this.selectedTeam);
+    console.log('➡️ currentFragment:', this.currentFragment);
   }
 
-  addCardMode(column: Column): void {
+  addCardMode(clickedColumn: Column): void {
     this.removeMode = false;
+
     const dialogRef = this.dialog.open(TaskTitleDialogComponent, {
       width: '300px',
       data: { title: '', deadline: '' },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
       if (result) {
         const newTask: Task = {
           id: `ID-00${this.taskCounter++}`,
           title: result.title,
           deadline: result.deadline,
         };
+        const column = this.columns.find((c) => c.name === clickedColumn.name);
+        if (!column) return;
+
         column.tasks.push(newTask);
         this.updateCardNames();
         this.saveTeamToLocalStorage();
@@ -203,12 +218,21 @@ export class MainTaskMangerComponent implements OnInit {
     const teamListKey =
       this.currentFragment === 'company' ? 'companyTeams' : 'myTeams';
     const teams = allTeams[teamListKey];
+    console.log(teams);
 
     const teamIndex = teams.findIndex((t: any) => t.name === this.selectedTeam);
-    if (teamIndex === -1) return;
+    if (teamIndex === -1) {
+      console.warn('Team not found in localStorage');
+      return;
+    }
 
     teams[teamIndex].columns = this.columns;
 
+    // console.log('Before saving:', JSON.stringify(allTeams, null, 2));
+
     localStorage.setItem('allTeams', JSON.stringify(allTeams));
+
+    const check = localStorage.getItem('allTeams');
+    // console.log('After saving:', check);
   }
 }
