@@ -45,90 +45,64 @@ interface Column {
 export class MainTaskMangerComponent implements OnInit {
   selectedTeam: string | null = null;
   currentFragment: string | null = null;
+  taskCounter: number = 6;
+  connectedDropListsIds: string[] = [];
+  removeMode = false;
+
+  columns: Column[] = [];
 
   constructor(
     private route: ActivatedRoute,
     public teamFormService: TeamFormService,
     private dialog: MatDialog
   ) {}
-  connectedDropListsIds: string[] = [];
-
-  taskCounter = 6;
-
-  columns: Column[] = [
-    {
-      name: 'To Do',
-      color: '#aaa',
-      cardName: '',
-      progress: 3,
-      tasks: [
-        { id: 'ID-001', title: 'Feed the dog' },
-        { id: 'ID-002', title: 'Take a walk with the dog' },
-      ],
-    },
-    {
-      name: 'In Progress',
-      color: '#ff0000',
-      cardName: '',
-      progress: 33,
-      tasks: [{ id: 'ID-003', title: 'Drive home' }],
-    },
-    {
-      name: 'Review',
-      color: '#ffcc00',
-      cardName: '',
-      progress: 66,
-      tasks: [{ id: 'ID-004', title: 'Refuel the car' }],
-    },
-    {
-      name: 'Done',
-      color: '#00cc66',
-      cardName: '',
-      progress: 100,
-      tasks: [{ id: 'ID-005', title: 'Company Work' }],
-    },
-  ];
 
   ngOnInit(): void {
-    this.route.queryParamMap.subscribe((params) => {
-      this.selectedTeam = params.get('team');
+    this.route.queryParams.subscribe((params) => {
+      const teamParam = params['team'];
+      if (teamParam) {
+        this.loadTeamFromParam(teamParam);
+      }
     });
+  }
 
-    this.route.fragment.subscribe((fragment) => {
-      this.currentFragment = fragment;
-    });
+  loadTeamFromParam(teamParam: string): void {
+    const savedTeams = localStorage.getItem('allTeams');
+    if (!savedTeams) {
+      console.warn('No data found in localStorage');
+      return;
+    }
 
-    // Initiera listan med drop-list IDs efter kolumnerna är definierade
-    this.connectedDropListsIds = this.columns.map(
-      (_, index) => 'cdk-drop-list-' + index
+    const allTeams = JSON.parse(savedTeams);
+    const myTeams = allTeams.myTeams || [];
+    const companyTeams = allTeams.companyTeams || [];
+
+    // Kombinera alla team i en lista för att söka i båda kategorierna
+    const all = [...myTeams, ...companyTeams];
+
+    // Leta upp teamet med sluggat namn (lowercase, spaces till '-')
+    const matchedTeam = all.find(
+      (team) => team.name.toLowerCase().replace(/\s+/g, '-') === teamParam
     );
 
-    // Sätt cardName och nameCard baserat på tasks.length
-    this.columns.forEach((column) => {
-      let prefix = '';
+    if (!matchedTeam) {
+      console.warn(`Team med slug "${teamParam}" hittades inte.`);
+      return;
+    }
 
-      if (column.name === 'To Do') {
-        prefix = 'TD';
-      } else if (column.name === 'In Progress') {
-        prefix = 'IP';
-      } else if (column.name === 'Review') {
-        prefix = 'RW';
-      } else if (column.name === 'Done') {
-        prefix = 'DN';
-      } else {
-        prefix = 'XX';
-      }
+    this.columns = matchedTeam.columns || [];
+    this.connectedDropListsIds = this.columns.map(
+      (_, i) => `cdk-drop-list-${i}`
+    );
+    this.selectedTeam = matchedTeam.name;
 
-      // Sätt unika namn för varje task baserat på index
-      column.tasks.forEach((task, index) => {
-        task.nameCard = `${prefix}-${index + 1}`;
-      });
-    });
+    // Räkna ut totala antalet tasks i alla kolumner
+    const allTaskCount = this.columns.flatMap((column) => column.tasks).length;
+    this.taskCounter = allTaskCount > 0 ? allTaskCount + 1 : 1;
   }
 
   addCardMode(column: Column): void {
     this.removeMode = false;
-
     const dialogRef = this.dialog.open(TaskTitleDialogComponent, {
       width: '300px',
       data: { title: '' },
@@ -142,6 +116,7 @@ export class MainTaskMangerComponent implements OnInit {
         };
         column.tasks.push(newTask);
         this.updateCardNames();
+        this.saveTeamToLocalStorage();
       }
     });
   }
@@ -155,7 +130,8 @@ export class MainTaskMangerComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         task.title = result;
-        this.updateCardNames(); // ev. uppdateringslogik
+        this.updateCardNames();
+        this.saveTeamToLocalStorage();
       }
     });
   }
@@ -163,9 +139,8 @@ export class MainTaskMangerComponent implements OnInit {
   removeSpecificCard(column: Column, taskToRemove: Task): void {
     column.tasks = column.tasks.filter((task) => task !== taskToRemove);
     this.updateCardNames();
+    this.saveTeamToLocalStorage();
   }
-
-  removeMode = false;
 
   toggleRemoveMode() {
     this.removeMode = !this.removeMode;
@@ -187,12 +162,12 @@ export class MainTaskMangerComponent implements OnInit {
       );
     }
     this.updateCardNames();
+    this.saveTeamToLocalStorage();
   }
 
   updateCardNames() {
     this.columns.forEach((column) => {
       let prefix = '';
-
       switch (column.name) {
         case 'To Do':
           prefix = 'TD';
@@ -209,14 +184,27 @@ export class MainTaskMangerComponent implements OnInit {
         default:
           prefix = 'XX';
       }
-
-      // Valfritt: sätt kolumnens cardName till prefix (utan nummer)
       column.cardName = prefix;
-
-      // Ge varje task ett unikt nameCard
       column.tasks.forEach((task, index) => {
         task.nameCard = `${prefix}-${index + 1}`;
       });
     });
+  }
+
+  saveTeamToLocalStorage() {
+    const storedTeams = localStorage.getItem('allTeams');
+    if (!storedTeams || !this.selectedTeam || !this.currentFragment) return;
+
+    const allTeams = JSON.parse(storedTeams);
+    const teamListKey =
+      this.currentFragment === 'company' ? 'companyTeams' : 'myTeams';
+    const teams = allTeams[teamListKey];
+
+    const teamIndex = teams.findIndex((t: any) => t.name === this.selectedTeam);
+    if (teamIndex === -1) return;
+
+    teams[teamIndex].columns = this.columns;
+
+    localStorage.setItem('allTeams', JSON.stringify(allTeams));
   }
 }
