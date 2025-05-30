@@ -22,6 +22,6 @@ import { CommonModule } from '@angular/common';
 export class TaskTitleDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<TaskTitleDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { title: string }
+    @Inject(MAT_DIALOG_DATA) public data: { title: string; deadline: string }
   ) {}
 }

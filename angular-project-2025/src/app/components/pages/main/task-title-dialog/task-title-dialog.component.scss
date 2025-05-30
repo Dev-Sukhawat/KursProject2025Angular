@@ -26,3 +26,21 @@ mat-dialog-actions {
         font-weight: 500;
     }
 }
+
+.dialog-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    }
+
+    .cancel-button {
+    min-width: 80px;
+    font-weight: 500;
+    }
+
+    .add-button {
+    min-width: 80px;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }

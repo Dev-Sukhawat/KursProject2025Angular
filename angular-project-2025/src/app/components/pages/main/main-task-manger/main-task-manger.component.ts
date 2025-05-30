@@ -19,6 +19,7 @@ interface Task {
   id: string;
   title: string;
   nameCard?: string;
+  deadline: string;
 }
 
 interface Column {
@@ -105,14 +106,16 @@ export class MainTaskMangerComponent implements OnInit {
     this.removeMode = false;
     const dialogRef = this.dialog.open(TaskTitleDialogComponent, {
       width: '300px',
-      data: { title: '' },
+      data: { title: '', deadline: '' },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
       if (result) {
         const newTask: Task = {
           id: `ID-00${this.taskCounter++}`,
-          title: result,
+          title: result.title,
+          deadline: result.deadline,
         };
         column.tasks.push(newTask);
         this.updateCardNames();
@@ -124,12 +127,13 @@ export class MainTaskMangerComponent implements OnInit {
   editCardMode(column: Column, task: Task): void {
     const dialogRef = this.dialog.open(TaskTitleDialogComponent, {
       width: '300px',
-      data: { title: task.title },
+      data: { title: task.title, deadline: task.deadline },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        task.title = result;
+        task.title = result.title;
+        task.deadline = result.deadline;
         this.updateCardNames();
         this.saveTeamToLocalStorage();
       }

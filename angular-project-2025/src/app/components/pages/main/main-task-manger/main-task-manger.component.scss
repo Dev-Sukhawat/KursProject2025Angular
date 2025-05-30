@@ -120,6 +120,12 @@
                     margin: 0.25rem 0;
                 }
 
+                .card-deadline{
+                    span{
+                        text-transform: capitalize;
+                    }
+                }
+
                 .card-info{
                     display: flex;
                     justify-content: space-between;

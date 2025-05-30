@@ -1,10 +1,13 @@
-<h2 mat-dialog-title>New Task Titel</h2>
+<h2 mat-dialog-title>New Task</h2>
 <mat-dialog-content>
     <mat-form-field>
         <input matInput placeholder="Task Titel" [(ngModel)]="data.title" />
     </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Task-Deadline" [(ngModel)]="data.deadline" />
+    </mat-form-field>
 </mat-dialog-content>
-<mat-dialog-actions align="end">
-    <button mat-button (click)="dialogRef.close()">Cancel</button>
-    <button mat-button color="primary" (click)="dialogRef.close(data.title)">ADD</button>
+<mat-dialog-actions align="end" class="dialog-actions">
+    <button mat-stroked-button color="warn" class="cancel-button" (click)="dialogRef.close()">Cancel</button>
+    <button mat-flat-button color="primary" class="add-button" (click)="dialogRef.close(data)">ADD</button>
 </mat-dialog-actions>

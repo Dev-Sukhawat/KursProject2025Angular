@@ -34,8 +34,12 @@ export class NavbarComponent implements OnInit {
             cardName: '',
             progress: 3,
             tasks: [
-              { id: 'ID-001', title: 'Feed the dog' },
-              { id: 'ID-002', title: 'Take a walk with the dog' },
+              { id: 'ID-001', title: 'Feed the dog', deadline: '12-07-2025' },
+              {
+                id: 'ID-002',
+                title: 'Take a walk with the dog',
+                deadline: '10-06-2025',
+              },
             ],
           },
           {
@@ -43,21 +47,27 @@ export class NavbarComponent implements OnInit {
             color: '#ff0000',
             cardName: '',
             progress: 33,
-            tasks: [{ id: 'ID-003', title: 'Drive home' }],
+            tasks: [
+              { id: 'ID-003', title: 'Drive home', deadline: '30-08-2025' },
+            ],
           },
           {
             name: 'Review',
             color: '#ffcc00',
             cardName: '',
             progress: 66,
-            tasks: [{ id: 'ID-004', title: 'Refuel the car' }],
+            tasks: [
+              { id: 'ID-004', title: 'Refuel the car', deadline: '12-05-2025' },
+            ],
           },
           {
             name: 'Done',
             color: '#00cc66',
             cardName: '',
             progress: 100,
-            tasks: [{ id: 'ID-005', title: 'Company Work' }],
+            tasks: [
+              { id: 'ID-005', title: 'Company Work', deadline: '29-06-2025' },
+            ],
           },
         ],
       },
@@ -93,11 +103,15 @@ export class NavbarComponent implements OnInit {
             cardName: '',
             progress: 100,
             tasks: [
-              { id: 'ID-001', title: 'Feed the dog' },
-              { id: 'ID-002', title: 'Take a walk with the dog' },
-              { id: 'ID-003', title: 'Drive home' },
-              { id: 'ID-004', title: 'Refuel the car' },
-              { id: 'ID-005', title: 'Company Work' },
+              { id: 'ID-001', title: 'Feed the dog', deadline: '30-05-2025' },
+              {
+                id: 'ID-002',
+                title: 'Take a walk with the dog',
+                deadline: '30-05-2025',
+              },
+              { id: 'ID-003', title: 'Drive home', deadline: '30-05-2025' },
+              { id: 'ID-004', title: 'Refuel the car', deadline: '30-05-2025' },
+              { id: 'ID-005', title: 'Company Work', deadline: '30-05-2025' },
             ],
           },
         ],
@@ -120,9 +134,13 @@ export class NavbarComponent implements OnInit {
             cardName: '',
             progress: 33,
             tasks: [
-              { id: 'ID-001', title: 'Feed the dog' },
-              { id: 'ID-002', title: 'Take a walk with the dog' },
-              { id: 'ID-003', title: 'Drive home' },
+              { id: 'ID-001', title: 'Feed the dog', deadline: 'Anytime' },
+              {
+                id: 'ID-002',
+                title: 'Take a walk with the dog',
+                deadline: '30-07-2025',
+              },
+              { id: 'ID-003', title: 'Drive home', deadline: '30-07-2025' },
             ],
           },
           {
@@ -130,14 +148,18 @@ export class NavbarComponent implements OnInit {
             color: '#ffcc00',
             cardName: '',
             progress: 66,
-            tasks: [{ id: 'ID-004', title: 'Refuel the car' }],
+            tasks: [
+              { id: 'ID-004', title: 'Refuel the car', deadline: '31-05-2025' },
+            ],
           },
           {
             name: 'Done',
             color: '#00cc66',
             cardName: '',
             progress: 100,
-            tasks: [{ id: 'ID-005', title: 'Company Work' }],
+            tasks: [
+              { id: 'ID-005', title: 'Company Work', deadline: '30-05-2025' },
+            ],
           },
         ],
       },
@@ -152,9 +174,13 @@ export class NavbarComponent implements OnInit {
             cardName: '',
             progress: 3,
             tasks: [
-              { id: 'ID-001', title: 'Feed the dog' },
-              { id: 'ID-002', title: 'Take a walk with the dog' },
-              { id: 'ID-003', title: 'Drive home' },
+              { id: 'ID-001', title: 'Feed the dog', deadline: '30-08-2025' },
+              {
+                id: 'ID-002',
+                title: 'Take a walk with the dog',
+                deadline: '30-08-2025',
+              },
+              { id: 'ID-003', title: 'Drive home', deadline: '30-08-2025' },
             ],
           },
           {
