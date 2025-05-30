@@ -24,7 +24,7 @@ export class LoginFormComponent implements OnInit {
   email: string = '';
   password: string = '';
 
-  teams = [{ name: 'Management', color: 'red', count: 5 }];
+  teams = [{ name: 'Demo', color: 'gray' }];
 
   // Demo users list
   demoUsers: User[] = [
@@ -124,6 +124,7 @@ export class LoginFormComponent implements OnInit {
     const firstTeamName =
       this.teams && this.teams.length > 0 ? this.teams[0].name : 'management';
     const teamParam = firstTeamName.toLowerCase().replace(/\s+/g, '-');
+    console.log(firstTeamName);
 
     alert('Login success!');
 
