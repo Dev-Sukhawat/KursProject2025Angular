@@ -330,6 +330,35 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+  goToHomeWithFirstTeam(): void {
+    const teamsData = localStorage.getItem('allTeams');
+    let teamName = 'home';
+
+    if (teamsData) {
+      const allTeams = JSON.parse(teamsData);
+
+      if (allTeams.myTeams?.length > 0) {
+        teamName = allTeams.myTeams[0].name;
+      } else if (allTeams.companyTeams?.length > 0) {
+        teamName = allTeams.companyTeams[0].name;
+      }
+    }
+
+    const teamParam = teamName.toLowerCase().replace(/\s+/g, '-');
+
+    if (this.LoginId) {
+      this.router.navigate(['/main', this.LoginId], {
+        queryParams: { team: teamParam },
+        fragment: 'tasks',
+      });
+    } else {
+      this.router.navigate(['/home'], {
+        queryParams: { team: teamParam },
+        fragment: 'tasks',
+      });
+    }
+  }
+
   ngOnInit(): void {
     this.loadAllTeamsFromStorage();
 
@@ -339,7 +368,6 @@ export class NavbarComponent implements OnInit {
       if (teamFromUrl) {
         this.activeTeam = teamFromUrl.toLowerCase();
       } else {
-        // Om inget team finns i URL, välj första tillgängliga och uppdatera URL
         if (this.allTeams.myTeams.length > 0) {
           this.activeTeam = this.allTeams.myTeams[0].name;
         } else if (this.allTeams.companyTeams.length > 0) {
@@ -432,13 +460,13 @@ export class NavbarComponent implements OnInit {
     this.saveAllTeamsToStorage();
   }
 
-  selectTeam(teamName: string, type: 'my' | 'company') {
-    this.activeTeam = teamName;
-
-    const teamParam = teamName.toLowerCase().replace(/\s+/g, '-');
-
-    this.router.navigate(['/main', this.LoginId], {
-      queryParams: { team: teamParam },
+  selectTeam(name: string, category: string) {
+    const slug = this.slugify(name);
+    if (this.activeTeam === slug) return;
+    this.activeTeam = slug;
+    this.router.navigate([], {
+      queryParams: { team: slug },
+      queryParamsHandling: 'merge',
       fragment: 'tasks',
     });
   }
