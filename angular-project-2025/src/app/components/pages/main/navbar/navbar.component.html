@@ -31,7 +31,7 @@
 
         <div class="section-label">My Teams</div>
         <ul class="team-list">
-            <li *ngFor="let team of allTeams.myTeams" class="team-item" [class.active]="activeTeam === team.name"
+            <li *ngFor="let team of allTeams.myTeams" class="team-item" [class.active]="activeTeam === slugify(team.name)"
                 [class.removable]="teamFormService.removeMode"
                 (click)="teamFormService.removeMode ? removeTeamByName(team.name, 'my') : selectTeam(team.name, 'my')">
                 <span class="dot" [ngClass]="team.color"></span>
@@ -42,7 +42,7 @@
 
         <div class="section-label">Company Teams</div>
         <ul class="team-list">
-            <li *ngFor="let team of allTeams.companyTeams" class="team-item" [class.active]="activeTeam === team.name"
+            <li *ngFor="let team of allTeams.companyTeams" class="team-item" [class.active]="activeTeam === slugify(team.name)"
                 [class.removable]="teamFormService.removeMode"
                 (click)="teamFormService.removeMode ? removeTeamByName(team.name, 'company') : selectTeam(team.name, 'company')">
                 <span class="dot" [ngClass]="team.color"></span>

@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, Input, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -18,7 +18,8 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private router: Router,
-    public teamFormService: TeamFormService
+    public teamFormService: TeamFormService,
+    private route: ActivatedRoute
   ) {}
 
   allTeams = {
@@ -325,18 +326,40 @@ export class NavbarComponent implements OnInit {
     if (data) {
       this.allTeams = JSON.parse(data);
     } else {
-      this.saveAllTeamsToStorage(); // spara standard första gången
+      this.saveAllTeamsToStorage();
     }
   }
 
   ngOnInit(): void {
     this.loadAllTeamsFromStorage();
 
-    if (this.allTeams.myTeams.length > 0) {
-      this.activeTeam = this.allTeams.myTeams[0].name;
-    } else if (this.allTeams.companyTeams.length > 0) {
-      this.activeTeam = this.allTeams.companyTeams[0].name;
-    }
+    this.route.queryParams.subscribe((params) => {
+      const teamFromUrl = params['team'];
+
+      if (teamFromUrl) {
+        this.activeTeam = teamFromUrl.toLowerCase();
+      } else {
+        // Om inget team finns i URL, välj första tillgängliga och uppdatera URL
+        if (this.allTeams.myTeams.length > 0) {
+          this.activeTeam = this.allTeams.myTeams[0].name;
+        } else if (this.allTeams.companyTeams.length > 0) {
+          this.activeTeam = this.allTeams.companyTeams[0].name;
+        }
+
+        if (this.activeTeam) {
+          const teamSlug = this.activeTeam.toLowerCase().replace(/\s+/g, '-');
+          this.router.navigate([], {
+            queryParams: { team: this.slugify(this.activeTeam) },
+            queryParamsHandling: 'merge',
+            fragment: 'tasks',
+          });
+        }
+      }
+    });
+  }
+
+  slugify(name: string): string {
+    return name.toLowerCase().replace(/\s+/g, '-');
   }
 
   addTeam() {
