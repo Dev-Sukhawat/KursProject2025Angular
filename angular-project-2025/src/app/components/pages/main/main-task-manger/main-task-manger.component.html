@@ -6,7 +6,9 @@
             </div>
             <div class="right">
                 <button class="create-btn" (click)="teamFormService.toggleAddForm()">+ Create New Team</button>
-                <button class="filter-btn">Filter</button>
+                <button (click)="toggleDeadlineFilter()" class="filter-toggle-btn">
+                    {{ isFilteringDeadlines ? 'Filter' : 'Filter By Deadline' }}
+                </button>
             </div>
         </div>
 

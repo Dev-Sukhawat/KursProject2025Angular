@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CapitalizePipe } from '../../../utils/capitalize.pipe';
-import { Observable, switchMap, of } from 'rxjs';
 import { TeamFormService } from '../../../../team-form.service';
 import {
   CdkDragDrop,
@@ -52,11 +51,13 @@ interface Team {
 export class MainTaskMangerComponent implements OnInit {
   selectedTeam: string | null = null;
   currentFragment: string | null = null;
+  currentTeamParam: string = '';
   taskCounter: number = 6;
   connectedDropListsIds: string[] = [];
   removeMode = false;
 
   columns: Column[] = [];
+  sortedDeadlines: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -67,6 +68,7 @@ export class MainTaskMangerComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       const teamParam = params['team'];
+      // console.log(teamParam);
       if (teamParam) {
         this.loadTeamFromParam(teamParam);
       }
@@ -74,6 +76,7 @@ export class MainTaskMangerComponent implements OnInit {
   }
 
   loadTeamFromParam(teamParam: string): void {
+    this.currentTeamParam = teamParam;
     const savedTeams = localStorage.getItem('allTeams');
     if (!savedTeams) {
       console.warn('No data found in localStorage');
@@ -110,8 +113,8 @@ export class MainTaskMangerComponent implements OnInit {
     const allTaskCount = this.columns.flatMap((column) => column.tasks).length;
     this.taskCounter = allTaskCount > 0 ? allTaskCount + 1 : 1;
 
-    console.log('✔️ Loaded team:', this.selectedTeam);
-    console.log('➡️ currentFragment:', this.currentFragment);
+    // console.log('✔️ Loaded team:', this.selectedTeam);
+    // console.log('➡️ currentFragment:', this.currentFragment);
   }
 
   addCardMode(clickedColumn: Column): void {
@@ -234,5 +237,82 @@ export class MainTaskMangerComponent implements OnInit {
 
     const check = localStorage.getItem('allTeams');
     // console.log('After saving:', check);
+  }
+
+  isFilteringDeadlines: boolean = false;
+
+  loadOriginalData(): void {
+    if (this.currentTeamParam) {
+      this.loadTeamFromParam(this.currentTeamParam);
+    }
+  }
+
+  toggleDeadlineFilter() {
+    this.isFilteringDeadlines = !this.isFilteringDeadlines;
+
+    if (this.isFilteringDeadlines) {
+      this.filterByDeadline();
+    } else {
+      this.loadOriginalData();
+    }
+  }
+
+  filterByDeadline() {
+    const storedTeams = localStorage.getItem('allTeams');
+    if (!storedTeams || !this.selectedTeam || !this.currentFragment) return;
+
+    const allTeams = JSON.parse(storedTeams);
+    const teamListKey =
+      this.currentFragment === 'company' ? 'companyTeams' : 'myTeams';
+    const teams = allTeams[teamListKey];
+
+    const teamIndex = teams.findIndex((d: any) => d.name === this.selectedTeam);
+    if (teamIndex === -1) return;
+
+    const columns = teams[teamIndex].columns;
+
+    // Filtre tasks white deadline
+    const filteredColumns = columns.map((col: any) => {
+      const validDateTasks: any[] = [];
+      const anytimeOrInvalidTasks: any[] = [];
+
+      col.tasks.forEach((task: any) => {
+        const deadlineStr = task.deadline?.toLowerCase().trim();
+
+        if (!deadlineStr || deadlineStr === 'anytime') {
+          anytimeOrInvalidTasks.push(task);
+          return;
+        }
+
+        const parts = deadlineStr.split('-');
+        if (parts.length === 3) {
+          const [day, month, year] = parts.map(Number);
+          const parsedDate = new Date(year, month - 1, day);
+          if (!isNaN(parsedDate.getTime())) {
+            validDateTasks.push({ ...task, parsedDeadline: parsedDate });
+            return;
+          }
+        }
+
+        // If parsing fails, treat as invalid and push to the end
+        anytimeOrInvalidTasks.push(task);
+      });
+
+      // Sort only valid date tasks
+      validDateTasks.sort((a, b) => a.parsedDeadline - b.parsedDeadline);
+
+      // Remove `parsedDeadline` before display
+
+      const cleanedValidTasks = validDateTasks.map(
+        ({ parsedDeadline, ...rest }) => rest
+      );
+
+      return {
+        ...col,
+        tasks: [...cleanedValidTasks, ...anytimeOrInvalidTasks],
+      };
+    });
+
+    this.columns = filteredColumns;
   }
 }
