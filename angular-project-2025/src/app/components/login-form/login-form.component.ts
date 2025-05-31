@@ -121,10 +121,24 @@ export class LoginFormComponent implements OnInit {
       return;
     }
 
-    const firstTeamName =
-      this.teams && this.teams.length > 0 ? this.teams[0].name : 'management';
-    const teamParam = firstTeamName.toLowerCase().replace(/\s+/g, '-');
-    console.log(firstTeamName);
+    const teamsData = localStorage.getItem('allTeams');
+    let allTeams: any = null;
+    let teamName: string = 'Demo';
+
+    if (teamsData) {
+      allTeams = JSON.parse(teamsData);
+
+      const demoExists = allTeams.myTeams.some((t: any) => t.name === 'Demo');
+      if (demoExists) {
+        teamName = 'Demo';
+      } else if (allTeams.myTeams.length > 0) {
+        teamName = allTeams.myTeams[0].name;
+      } else if (allTeams.companyTeams.length > 0) {
+        teamName = allTeams.companyTeams[0].name;
+      }
+    }
+
+    const teamParam = teamName.toLowerCase().replace(/\s+/g, '-');
 
     alert('Login success!');
 
