@@ -5,8 +5,10 @@ section{
 
 .sidebar {
     width: 260px;
-    height: 100%;
+    display: flex;
     background-color: #1f2a3c;
+    flex-direction: column;
+    justify-content: space-between;
     padding: 24px;
     box-sizing: border-box;
     color: white;
@@ -250,12 +252,6 @@ section{
         color: #b91c1c;
         cursor: url("../../../../../assets/icons/trashbin.png");
     }
-}
-
-.sidebar {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
 }
 
 .bottom-actions {
