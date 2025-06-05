@@ -57,7 +57,6 @@ export class MainTaskMangerComponent implements OnInit {
   removeMode = false;
 
   columns: Column[] = [];
-  sortedDeadlines: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -221,7 +220,7 @@ export class MainTaskMangerComponent implements OnInit {
     const teamListKey =
       this.currentFragment === 'company' ? 'companyTeams' : 'myTeams';
     const teams = allTeams[teamListKey];
-    console.log(teams);
+    // console.log(teams);
 
     const teamIndex = teams.findIndex((t: any) => t.name === this.selectedTeam);
     if (teamIndex === -1) {
