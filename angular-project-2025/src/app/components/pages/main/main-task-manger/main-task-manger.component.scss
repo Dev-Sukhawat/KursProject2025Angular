@@ -134,6 +134,11 @@
                     margin: 0.25rem 0;
                 }
 
+                .card-progress{
+                    display: grid;
+                    gap: 0.2rem;
+                }
+
                 .card-deadline{
                     span{
                         text-transform: capitalize;

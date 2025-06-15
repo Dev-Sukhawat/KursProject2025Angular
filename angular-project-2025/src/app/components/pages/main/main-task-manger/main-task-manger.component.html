@@ -30,14 +30,15 @@
                         <div class="card-id">{{ task.id }}</div>
                     </div>
                     <div class="card-title">{{ task.title }}</div>
-                    <div class="progress">
+                    <div class="card-progress">
+                        <span>Progress:</span>
                         <div class="progress-bar" [style.width.%]="column.progress" [style.backgroundColor]="column.color"
                             [style.borderRadius.px]="8">
                             <app-progress-bar></app-progress-bar>
                         </div>
                     </div>
                     <div class="card-deadline">
-                        <span>Deadline: {{task.deadline}}</span>
+                        <span>Deadline: <br> {{task.deadline}}</span>
                     </div>
                     <div class="card-info">
                         <div class="card-meta">
