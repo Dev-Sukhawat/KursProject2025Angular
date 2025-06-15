@@ -5,7 +5,9 @@ section{
 
 .sidebar {
     width: 260px;
+    min-height: 100vh;
     display: flex;
+    flex-shrink: 0;
     background-color: #1f2a3c;
     flex-direction: column;
     justify-content: space-between;
@@ -13,6 +15,11 @@ section{
     box-sizing: border-box;
     color: white;
     font-family: "Segoe UI", sans-serif;
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    height: 100vh;
+    overflow-y: auto;
 }
 
 .logo {
