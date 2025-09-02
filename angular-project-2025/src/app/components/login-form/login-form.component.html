@@ -1,27 +1,48 @@
 <section class="form-section">
-    <form class="form">
-        <div class="form-title"><span>sign in to your</span></div>
-        <div class="title-2"><span>Tasky</span></div>
-        <div class="input-container">
-            <input placeholder="Username" type="text" [(ngModel)]="username" name="username" class="input-user" required
-                autocomplete="current-username" />
-            <input placeholder="Email" type="email" [(ngModel)]="email" name="email" class="input-mail" required
-                autocomplete="current-email" />
-            <input placeholder="Password" type="password" [(ngModel)]="password" name="password" class="input-pwd" required
-                autocomplete="current-password" />
-            <button class="submit" (click)="handleLogin()" type="button">
-                <span class="sign-text">Sign in</span>
-            </button>
-            <p class="signup-link">
-                No account?
-                <a class="up" (click)="showUnderdevelopAlert()">Sign up!</a>
-            </p>
-        </div>
-        <section class="bg-stars">
-            <span class="star"></span>
-            <span class="star"></span>
-            <span class="star"></span>
-            <span class="star"></span>
-        </section>
-    </form>
+  <form class="form">
+    <div class="form-title"><span>sign in to your</span></div>
+    <div class="title-2"><span>Tasky</span></div>
+    <div class="input-container">
+      <div class="input-container">
+      <input
+        placeholder="Username"
+        type="text"
+        [(ngModel)]="usernameModel"
+        name="username"
+        class="input-user"
+        required
+        autocomplete="username"
+      />
+      <input
+        placeholder="Email"
+        type="email"
+        [(ngModel)]="emailModel"
+        name="email"
+        class="input-mail"
+        required
+        autocomplete="email"
+      />
+      <input
+        placeholder="Password"
+        type="password"
+        [(ngModel)]="passwordModel"
+        name="password"
+        class="input-pwd"
+        required
+        autocomplete="current-password">
+      <button class="submit" (click)="handleLogin()" type="button">
+        <span class="sign-text">Sign in</span>
+      </button>
+      <p class="signup-link">
+        No account?
+        <a class="up" (click)="showUnderdevelopAlert()">Sign up!</a>
+      </p>
+    </div>
+    <section class="bg-stars">
+      <span class="star"></span>
+      <span class="star"></span>
+      <span class="star"></span>
+      <span class="star"></span>
+    </section>
+  </form>
 </section>
